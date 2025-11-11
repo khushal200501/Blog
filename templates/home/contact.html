@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}
+Contact
+{% endblock title %}
+{% block contactactive %}active{% endblock contactactive %}
+{% block head %}
+    <style>
+        .section-padding {
+            padding: 60px 0;
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        .info-box h4 {
+            color: #0d6efd;
+            margin-bottom: 15px;
+        }
+    </style>
+{% endblock head %}
+{% block body %}
+<section class="section-padding">
+        <div class="container">
+            <h1 class="text-center mb-5 fw-bold">Get In Touch</h1>
+            <div class="row">
+                
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="info-box">
+                        <h4 class="fw-bold">Contact Details</h4>
+                        <p>We typically respond within 24 hours.</p>
+                        
+                        <div class="mb-3">
+                            <h5 class="h6 fw-bold">Email Support</h5>
+                            <p class="mb-0">support@icoderblog.com</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h5 class="h6 fw-bold">Phone (Mon-Fri)</h5>
+                            <p class="mb-0">+91 98765 43210</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <h5 class="h6 fw-bold">Address</h5>
+                            <p class="mb-0">Tech Hub, 123 Digital Ave, New Delhi, India</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="p-4 border rounded">
+                        <h4 class="fw-bold mb-3">Send Us a Message</h4>
+                        <form method="POST" action="/home/contact/">
+                            {% csrf_token %} 
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" name="phone" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="content" class="form-label">How can we help?</label>
+                                <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-secondary btn-outline btn-lift">Submit Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock body %}

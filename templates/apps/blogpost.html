@@ -1,0 +1,129 @@
+{% extends "base.html" %} {% block title %} BlogPost {% endblock title %}
+{%block blogactive %}active{% endblock blogactive %} {% block body %}
+{% block head %}
+<style>
+    .comment-scroll-area {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+</style>
+{% endblock head %}
+{% load static %}
+{% load humanize %}
+{% load get_dict %}
+<div class="container my-3">
+    <h1 class="blog-post-title">{{post.title}}</h1>
+    <p>
+    <h3 class="m-2">~ by {{post.user.username}}</p>
+    </h3>
+
+    <p class="fs-6">{{post.content}}</p>
+
+    <p class="blog-post-meta">{{post.timestamp|date:"F j, Y, g:i a"}} <span>{{post.views}} Views</span></p>
+</div>
+<div class="container">
+    <div class="my-2">
+        <div id="post-{{ post.slug }}" class="post-detail-container">
+            {% if user.is_authenticated%}
+            <form action="/apps/postComment/" method="post">
+                {% csrf_token %}
+                <div class="form-group m-2">
+                    <input type="text" class="w-75" name="comment" placeholder="Enter your comment here">
+                    <input type="hidden" name="postsno" value="{{post.sno}}">
+                    <input type="hidden" name="parentsno" value="">
+                    <button type="submit" class="btn btn-primary btn-secondary btn-outline btn-lift">Comment</button>
+                </div>
+            </form>
+            <form method="POST" action="{% url 'BlogPost' slug=post.slug %}" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="action_type" value="like">
+                <input type="hidden" name="post_id" value="{{ post.pk }}">
+                <button type="submit" style="border: none ; box-shadow: none;" class="
+                {% if request.user in post.likes.all %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                    {% if request.user in post.likes.all %}
+                    &#x2764; {{ post.number_of_likes }}
+                    {% else %}
+                    &#x2661; {{ post.number_of_likes }}
+                    {% endif %}
+                </button>
+            </form>
+            <button class="" style="border: none ; box-shadow: none;" type="button" data-bs-toggle="collapse"
+                data-bs-target="#reply{{comment.sno}}" aria-expanded="false" aria-controls="reply{{comment.sno}}">
+                &#x1F4AC; {{comments.count}}
+            </button>
+            {% else %}
+            <p>Please Login/Signup to like a post or reply to a comment.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="comment-scroll-area">
+        {% for comment in comments %}
+        <div class="row m-1">
+            <div class="col-md-1"><img class="rounded w-75 m-2 border border-dark" src="{% static 'images/user.jpg' %}"
+                    alt="User Avatar"></div>
+            <div class="col-md-11">{{comment.user.username}} <span class="badge text-bg-secondary">
+                    {{comment.timestamp|date:"F j, Y, g:i a"}}</span>
+                <div>
+                    {{comment.comment}}
+                </div>
+                <div class="reply mx-0">
+                    {% if user.is_authenticated%}
+                    <button class="btn btn-primary btn-secondary btn-outline btn-lift m-1" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#reply{{comment.sno}}" aria-expanded="false"
+                        aria-controls="reply{{comment.sno}}">
+                        Reply
+                    </button>
+                    <div class="collapse" id="reply{{comment.sno}}">
+                        <div class="card card-body my-3">
+                            <form action="/apps/postComment/" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="comment">Reply on a comment</label><br>
+                                    <textarea class="m-2 w-75 mx-4 comment-box-large" type="text" name="comment"
+                                        placeholder="Enter your reply here"></textarea> 
+                                    <input type="hidden" name="parentsno" value="{{comment.sno}}">
+                                    <input type="hidden" name="postsno" value="{{post.sno}}">
+                                    <button type="submit"
+                                        class="btn btn-primary btn-secondary btn-outline btn-lift ">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                    <!-- Button to toggle the replies section -->
+                    {% if replyDict|get_reply:comment.sno %}
+                    <button class="btn btn-primary btn-secondary btn-outline btn-lift m-1" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#replies{{comment.sno}}" aria-expanded="false"
+                        aria-controls="replies{{comment.sno}}">
+                        View Replies
+                    </button>
+                    {% endif %}
+
+                    <!-- The replies section that will be toggled -->
+                    <div class="collapse my-2" id="replies{{comment.sno}}">
+                        {% for reply in replyDict|get_reply:comment.sno %}
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img class="rounded w-75 m-2 border border-dark" src="{% static 'images/user.jpg' %}"
+                                    alt="User Avatar">
+                            </div>
+                            <div class="col-md-11 my-1">
+                                {{reply.user.username}}
+                                <span class="badge text-bg-secondary">{{reply.timestamp|naturaltime}}</span>
+                                <div>
+                                    {{reply.comment}}
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

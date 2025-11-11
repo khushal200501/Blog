@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+BlogHome
+{% endblock title %}
+{% block blogactive %}active{% endblock blogactive %}
+{% block body %}
+<div class="container my-3">
+    <h1 class="m-3">Our Popular Blogs</h1>
+    {% for userposts in userPosts %}
+    <div class="row m-2">
+        <div class="card my-12">
+            <div class="card-body">
+                <h5 class="card-text"> {{userposts.title}}</h5>
+                <p class="card-text"> ~ by {{ userposts.user.username }}</p>
+                <p class="card-text">{{userposts.content|truncatechars:300}}</p>
+                <p class="text-muted">{{userposts.timestamp|date:"F j, Y, g:i a"}}</p>
+                <a href="{% url 'BlogPost' slug=userposts.slug %}"
+                    class="btn btn-primary btn-secondary btn-outline btn-lift">Continue reading</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% if not request.user.is_authenticated and posts_count == 4 %}
+    <div class="alert alert-info text-center mt-5" role="alert">
+        <h4 class="alert-heading">See More Posts!</h4>
+        <p>You are viewing only the latest {{ posts_count }} posts. Please Log In or Sign Up to view all our content!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock body %}

@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{% endblock title %}</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+  {% block head %}{% endblock head %}
+</head>
+<style>
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 8px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: all .3s ease;
+}
+
+.btn-primary {
+    color: white; 
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    color: white;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
+
+.btn-outline {
+    color: #007bff;
+    background-color: transparent;
+    border-color: #007bff;
+}
+
+.btn-outline:hover {
+    color: white;
+    background-color: #007bff;
+}
+</style>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="">iCoder</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item {% block homeactive %}{% endblock homeactive %}">
+            <a class="nav-link" aria-current="page" href="/home">Home</a>
+          </li>
+          <li class="nav-item {% block blogactive %}{% endblock blogactive %}">
+            <a class="nav-link" href="/apps/">Blog</a>
+          </li>
+          <li class="nav-item {% block aboutactive %}{% endblock aboutactive %}">
+            <a class="nav-link" href="/home/about/">About Us</a>
+          </li>
+          <li class="nav-item {% block contactactive %}{% endblock contactactive %}">
+            <a class="nav-link" href="/home/contact/">Contact</a>
+          </li>
+        </ul>
+        <form method="get" action="search/" class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
+            id="query" />
+          <button class="btn btn-outline-success" type="submit">
+            Search
+          </button>
+        </form>
+        <a href="/admin" role="button" class="btn btn-outline-success m-1">Admin Panel</a>
+        {% if user.is_authenticated %}
+        <a href="/apps/addpost" role="button" class="btn btn-warning m-1">
+          ➕ Create a Blog
+        </a>
+        {% endif %}
+        
+
+        <!-- Signup Button -->
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Welcome
+              {{request.user}} </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/home/logout/">Logout</a>
+            </div>
+          </li>
+        </ul>
+        {% else %}
+        <button type="button" class="btn btn-primary btn-secondary btn-outline btn-lift" data-bs-toggle="modal" data-bs-target="#signupmodal">
+          Signup
+        </button>
+        <button type="button" class="btn btn-primary btn-secondary btn-outline btn-lift" data-bs-toggle="modal" data-bs-target="#loginmodal">
+          Login
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message! </strong> {{ message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  <!-- Signup Modal-->
+  <div class="modal fade" id="signupmodal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 style="font-size: 24px; font-weight: 600" class="modal-title" id="myModalLabel">
+            Sign up
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/home/signup/" method="post" class="form-signin">
+            {% csrf_token %}
+            <div class="form-floating">
+              <input type="text" class="form-control mb-2" id="username" name="username" placeholder="Username"
+                required />
+              <label for="username">Username</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" class="form-control mb-2" id="fname" name="fname" placeholder="First Name" required />
+              <label for="fname">First Name</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" class="form-control mb-2" id="lname" name="lname" placeholder="Last Name" required />
+              <label for="lname">Last Name</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" class="form-control mb-2" id="email" name="email" placeholder="name@example.com"
+                required />
+              <label for="email">Email</label>
+            </div>
+            <div class="form-floating">
+              <input type="password" class="form-control mb-2" id="password" name="password" placeholder="Password"
+                required />
+              <label for="password">Password</label>
+            </div>
+            <div class="form-floating">
+              <input type="password" class="form-control mb-3" id="password2" name="password2"
+                placeholder="Confirm Password" required />
+              <label for="Password2">Confirm Password</label>
+            </div>
+            <button class="btn btn-primary" type="submit">Sign up</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Login Modal-->
+  <div class="modal fade" id="loginmodal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 style="font-size: 24px; font-weight: 600" class="modal-title" id="lmyModalLabel">
+            Login
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/home/login/" method="post" class="form-signin">
+            {% csrf_token %}
+            <div class="form-floating">
+              <input type="text" class="form-control mb-2" id="lusername" name="lusername" placeholder="Username"
+                required />
+              <label for="lusername">Username</label>
+            </div>
+            <div class="form-floating">
+              <input type="password" class="form-control mb-2" id="lpassword" name="lpassword" placeholder="Password"
+                required />
+              <label for="lpassword">Password</label>
+            </div>
+            <button class="btn btn-primary" type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block body %}{% endblock body %}
+</body>
+
+</html>
