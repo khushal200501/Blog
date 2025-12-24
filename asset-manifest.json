@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/khushal200501/Aura.git/static/css/main.3851d270.css",
-    "main.js": "/khushal200501/Aura.git/static/js/main.010cea73.js",
-    "static/js/453.830716ba.chunk.js": "/khushal200501/Aura.git/static/js/453.830716ba.chunk.js",
-    "index.html": "/khushal200501/Aura.git/index.html",
-    "main.3851d270.css.map": "/khushal200501/Aura.git/static/css/main.3851d270.css.map",
-    "main.010cea73.js.map": "/khushal200501/Aura.git/static/js/main.010cea73.js.map",
-    "453.830716ba.chunk.js.map": "/khushal200501/Aura.git/static/js/453.830716ba.chunk.js.map"
+    "main.css": "/khushal200501/Aura/static/css/main.3851d270.css",
+    "main.js": "/khushal200501/Aura/static/js/main.6f2c8e9a.js",
+    "static/js/453.830716ba.chunk.js": "/khushal200501/Aura/static/js/453.830716ba.chunk.js",
+    "index.html": "/khushal200501/Aura/index.html",
+    "main.3851d270.css.map": "/khushal200501/Aura/static/css/main.3851d270.css.map",
+    "main.6f2c8e9a.js.map": "/khushal200501/Aura/static/js/main.6f2c8e9a.js.map",
+    "453.830716ba.chunk.js.map": "/khushal200501/Aura/static/js/453.830716ba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3851d270.css",
-    "static/js/main.010cea73.js"
+    "static/js/main.6f2c8e9a.js"
   ]
 }
