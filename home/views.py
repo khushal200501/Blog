@@ -49,15 +49,15 @@ def signuppage(request):
         # Check for errorneous inputs
         if len(username) > 10:
             messages.error(request, "Useranme cannot be greater than 10 characters.")
-            return redirect('/home')  
+            return redirect('/')  
                 
         if not username.isalnum():
             messages.error(request, "Username can contain letters and numbers only.")
-            return redirect('/home')
+            return redirect('/')
 
         if password != password2:
             messages.error(request, "Passwords do not match.")
-            return redirect('/home') 
+            return redirect('/') 
 
         # Create the user
         myuser=User.objects.create_user(username, email, password)
@@ -65,7 +65,7 @@ def signuppage(request):
         myuser.last_name = lname
         myuser.save()
         messages.success(request, "Your account has been created successfully.")
-        return redirect('/home')
+        return redirect('/')
 
     else:
         return HttpResponse('Signup Failed')
@@ -80,11 +80,11 @@ def loginpage(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Successfully logged in.")
-            return redirect('/home')
+            return redirect('/')
 
         else:
             messages.error(request, "Invalid login credentials.")
-            return redirect("/home")
+            return redirect("/")
     
     else:
         return HttpResponse("ERROR - 404 Page not found")
@@ -92,4 +92,4 @@ def loginpage(request):
 def logoutpage(request):
     logout(request)
     messages.success(request, "Logged out successfully.")
-    return redirect("/home") 
+    return redirect("/") 

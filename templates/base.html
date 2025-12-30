@@ -72,16 +72,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item {% block homeactive %}{% endblock homeactive %}">
-            <a class="nav-link" aria-current="page" href="/home">Home</a>
+            <a class="nav-link" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item {% block blogactive %}{% endblock blogactive %}">
             <a class="nav-link" href="/apps/">Blog</a>
           </li>
           <li class="nav-item {% block aboutactive %}{% endblock aboutactive %}">
-            <a class="nav-link" href="/home/about/">About Us</a>
+            <a class="nav-link" href="/about/">About Us</a>
           </li>
           <li class="nav-item {% block contactactive %}{% endblock contactactive %}">
-            <a class="nav-link" href="/home/contact/">Contact</a>
+            <a class="nav-link" href="/contact/">Contact</a>
           </li>
         </ul>
         <form method="get" action="search/" class="d-flex" role="search">
@@ -106,7 +106,7 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Welcome
               {{request.user}} </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="/home/logout/">Logout</a>
+              <a class="dropdown-item" href="/logout/">Logout</a>
             </div>
           </li>
         </ul>
@@ -138,7 +138,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="/home/signup/" method="post" class="form-signin">
+          <form action="/signup/" method="post" class="form-signin">
             {% csrf_token %}
             <div class="form-floating">
               <input type="text" class="form-control mb-2" id="username" name="username" placeholder="Username"
@@ -185,7 +185,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="/home/login/" method="post" class="form-signin">
+          <form action="/login/" method="post" class="form-signin">
             {% csrf_token %}
             <div class="form-floating">
               <input type="text" class="form-control mb-2" id="lusername" name="lusername" placeholder="Username"

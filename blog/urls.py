@@ -24,5 +24,5 @@ admin.site.index_title = "Welcome to iCoder Admin Panel"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('apps/', include('apps.urls')),
-    path('home/', include('home.urls')),
+    path('', include('home.urls')),
 ]
