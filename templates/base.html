@@ -84,14 +84,17 @@
             <a class="nav-link" href="/contact/">Contact</a>
           </li>
         </ul>
+        {% if request.path not in "/ , /about/, /contact/" %}
         <form method="get" action="search/" class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
-            id="query" />
-          <button class="btn btn-outline-success" type="submit">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query" />
+          <button class="btn btn-secondary btn-outline btn-lift mx-2" type="submit">
             Search
           </button>
         </form>
-        <a href="/admin" role="button" class="btn btn-outline-success m-1">Admin Panel</a>
+        {% endif %}
+        {% if user.is_staff %}
+        <a href="/admin" role="button" class="btn btn-secondary btn-outline btn-lift mx-2">Admin Panel</a>
+        {% endif %}
         {% if user.is_authenticated %}
         <a href="/apps/addpost" role="button" class="btn btn-warning m-1">
           ➕ Create a Blog
@@ -111,10 +114,10 @@
           </li>
         </ul>
         {% else %}
-        <button type="button" class="btn btn-primary btn-secondary btn-outline btn-lift" data-bs-toggle="modal" data-bs-target="#signupmodal">
+        <button type="button" class="btn btn-secondary btn-outline btn-lift mx-2" data-bs-toggle="modal" data-bs-target="#signupmodal">
           Signup
         </button>
-        <button type="button" class="btn btn-primary btn-secondary btn-outline btn-lift" data-bs-toggle="modal" data-bs-target="#loginmodal">
+        <button type="button" class="btn btn-secondary btn-outline btn-lift" data-bs-toggle="modal" data-bs-target="#loginmodal">
           Login
         </button>
         {% endif %}
